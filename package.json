@@ -1,6 +1,6 @@
 {
-  "name": "@editorjs/warning",
-  "version": "1.3.0",
+  "name": "@medistream/editorjs-warning",
+  "version": "1.4.0",
   "keywords": [
     "codex editor",
     "tool",
@@ -11,15 +11,15 @@
   ],
   "description": "Warning Tool for Editor.js",
   "license": "MIT",
-  "repository": "https://github.com/editor-js/warning",
+  "repository": "https://github.com/medistream-team/editorjs-warning",
+  "author": {
+    "name": "medistream.team",
+    "email": "medistream.team@gmail.com"
+  },
   "main": "./dist/bundle.js",
   "scripts": {
     "build": "webpack --mode production",
     "build:dev": "webpack --mode development --watch"
-  },
-  "author": {
-    "name": "CodeX Team",
-    "email": "team@ifmo.su"
   },
   "devDependencies": {
     "@babel/core": "^7.3.4",
