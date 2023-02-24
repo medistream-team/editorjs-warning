@@ -263,7 +263,10 @@ export default class Warning {
   static get sanitize() {
     return {
       type: {},
-      message: {},
+      message: {
+        br: true,
+        div: true
+      },
     };
   }
 }
