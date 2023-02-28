@@ -24,6 +24,52 @@ require("./index.css").toString();
  * @property {string} messagePlaceholder - placeholder to show in warning`s message input
  */
 export default class Warning {
+
+  // 공용 툴바
+  static get $className() {
+    return 'cdx-warning'
+  }
+
+  $renderSettings() {
+    const settingsContainer = this._make("div", [this.CSS.settingsContainer]);
+
+    Object.keys(this.config.typeColors).forEach((type) => {
+      const settingsButton = this._make(
+        "div",
+        [
+          this.CSS.settingsButton,
+          this.CSS.wrapper,
+          this.CSS.wrapperForType(type),
+        ],
+        {
+          innerHTML: "A",
+        }
+      );
+      if (this.data.type === type) {
+        // Highlight current type button
+        settingsButton.classList.add(this.CSS.settingsButtonActive);
+      }
+
+      settingsButton.addEventListener("click", () => {
+        this._changeAlertType(type);
+
+        // Un-highlight previous type button
+        settingsContainer
+          .querySelectorAll(`.${this.CSS.settingsButton}`)
+          .forEach((button) =>
+            button.classList.remove(this.CSS.settingsButtonActive)
+          );
+
+        // and highlight the clicked type button
+        settingsButton.classList.add(this.CSS.settingsButtonActive);
+      });
+
+      settingsContainer.appendChild(settingsButton);
+    });
+
+    window.$pluginMethods = settingsContainer
+  }
+
   /**
    * Notify core that read-only mode is supported
    */
@@ -145,55 +191,6 @@ export default class Warning {
     }
 
     return this.container;
-  }
-
-  /**
-   * Create Block's settings block
-   *
-   * @returns {HTMLElement}
-   */
-
-  renderSettings() {
-    const settingsContainer = this._make("div", [this.CSS.settingsContainer]);
-    const title = this._make("div", [this.CSS.title]);
-    title.innerHTML = `${this.api.i18n.t(" Type")} `;
-    settingsContainer.appendChild(title);
-
-    Object.keys(this.config.typeColors).forEach((type) => {
-      const settingsButton = this._make(
-        "div",
-        [
-          this.CSS.settingsButton,
-          this.CSS.wrapper,
-          this.CSS.wrapperForType(type),
-        ],
-        {
-          innerHTML: "A",
-        }
-      );
-      if (this.data.type === type) {
-        // Highlight current type button
-        settingsButton.classList.add(this.CSS.settingsButtonActive);
-      }
-
-      settingsButton.addEventListener("click", () => {
-        this._changeAlertType(type);
-
-        // Un-highlight previous type button
-        settingsContainer
-          .querySelectorAll(`.${this.CSS.settingsButton}`)
-          .forEach((button) =>
-            button.classList.remove(this.CSS.settingsButtonActive)
-          );
-
-        // and highlight the clicked type button
-        settingsButton.classList.add(this.CSS.settingsButtonActive);
-      });
-
-      settingsContainer.appendChild(settingsButton);
-    });
-
-    return settingsContainer;
   }
 
   /**
