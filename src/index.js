@@ -101,12 +101,14 @@ export default class Warning {
     this.readOnly = readOnly;
     this.config = {
       defaultType: config.defaultType,
-      typeColor: config.typeColor,
+      typeColors: config.typeColors,
     };
+
+    const type = Object.keys(this.config.typeColors).includes(data.type) ? data.type : this.defaultType
+
     this.data = {
-      type: Object.keys(this.config.typeColor).includes(data.type)
-        ? data.type
-        : this.defaultType,
+      type,
+      color: this.config.typeColors[type],
       message: data.message || "",
     };
   }
@@ -138,7 +140,7 @@ export default class Warning {
 
     if (this.data.type) {
       const calloutType = this.data.type;
-      const colorCode = this.config.typeColor[`${calloutType}`];
+      const colorCode = this.config.typeColors[`${calloutType}`];
       this.background.style.backgroundColor = colorCode;
     }
 
@@ -157,7 +159,7 @@ export default class Warning {
     title.innerHTML = `${this.api.i18n.t(" Type")} `;
     settingsContainer.appendChild(title);
 
-    Object.keys(this.config.typeColor).forEach((type) => {
+    Object.keys(this.config.typeColors).forEach((type) => {
       const settingsButton = this._make(
         "div",
         [
@@ -203,8 +205,9 @@ export default class Warning {
   _changeAlertType(newType) {
     // Save new type
     this.data.type = newType;
+    this.data.color = this.config.typeColors[newType]
 
-    Object.keys(this.config.typeColor).forEach((type) => {
+    Object.keys(this.config.typeColors).forEach((type) => {
       const warningClass = this.CSS.wrapperForType(type);
       // Remove the old Alert type class
       this.container.classList.remove(warningClass);
@@ -213,7 +216,7 @@ export default class Warning {
         // Add an Alert class for the selected Alert type
         this.container.classList.add(warningClass);
 
-        const colorCode = this.config.typeColor[`${type}`];
+        const colorCode = this.config.typeColors[`${type}`];
         this.background.style.backgroundColor = colorCode;
       }
     });
