@@ -43,23 +43,9 @@ export default class Warning {
           innerHTML: "A",
         }
       );
-      if (this.data.type === type) {
-        // Highlight current type button
-        settingsButton.classList.add(this.CSS.settingsButtonActive);
-      }
 
       settingsButton.addEventListener("click", () => {
         this._changeAlertType(type);
-
-        // Un-highlight previous type button
-        settingsContainer
-          .querySelectorAll(`.${this.CSS.settingsButton}`)
-          .forEach((button) =>
-            button.classList.remove(this.CSS.settingsButtonActive)
-          );
-
-        // and highlight the clicked type button
-        settingsButton.classList.add(this.CSS.settingsButtonActive);
       });
 
       return settingsButton
@@ -117,7 +103,6 @@ export default class Warning {
     return {
       baseClass: this.api.styles.block,
       settingsButton: this.api.styles.settingsButton,
-      settingsButtonActive: this.api.styles.settingsButtonActive,
       wrapper: "cdx-warning",
       wrapperForType: (type) => `cdx-warning-${type}`,
       message: "cdx-warning__message",
