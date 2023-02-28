@@ -31,9 +31,7 @@ export default class Warning {
   }
 
   $renderSettings() {
-    const settingsContainer = this._make("div", [this.CSS.settingsContainer]);
-
-    Object.keys(this.config.typeColors).forEach((type) => {
+    const settingsContainer = Object.keys(this.config.typeColors).map((type) => {
       const settingsButton = this._make(
         "div",
         [
@@ -64,8 +62,8 @@ export default class Warning {
         settingsButton.classList.add(this.CSS.settingsButtonActive);
       });
 
-      settingsContainer.appendChild(settingsButton);
-    });
+      return settingsButton
+    })
 
     window.$pluginMethods = settingsContainer
   }
